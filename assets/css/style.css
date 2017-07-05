@@ -1,0 +1,30 @@
+body {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 10px;
+}
+
+header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+header img {
+  width: 75px;
+}
+
+#home {
+  text-align: center;
+}
+
+#home, #encrypt, #decrypt {
+  display: none;
+}
+
+.decrypting {
+  display: none;
+}
+
+.decrypted-text, .encrypted-text {
+  display: none;
+}
