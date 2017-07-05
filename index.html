@@ -1,0 +1,115 @@
+﻿<!doctype html>
+<html lang="en">
+    <head>
+        <title>Secure Messaging Service</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico" />
+
+        <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="assets/bootstrap/css/bootstrap-theme.min.css" />
+        <link rel="stylesheet" href="assets/css/style.css" />
+
+        <script type="text/javascript" src="assets/js/jquery-3.2.1.min.js"></script>
+        <script type="text/javascript" src="assets/bootstrap/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="assets/js/jsbn.js"></script>
+        <script type="text/javascript" src="assets/js/random.js"></script>
+        <script type="text/javascript" src="assets/js/hash.js"></script>
+        <script type="text/javascript" src="assets/js/rsa.js"></script>
+        <script type="text/javascript" src="assets/js/aes.js"></script>
+        <script type="text/javascript" src="assets/js/api.js"></script>
+        <script type="text/javascript" src="assets/js/app.js"></script>        
+    </head>    
+    <body>
+        <header>
+            <a href="#home">
+                <img src="assets/img/logo.png" />
+            </a>
+            <h4>Secure Messaging Service</h4>                       
+        </header>
+        <div id="home">
+            <p>
+            Сервис предоставляет возможность безопасного обмена зашифрованными текстовыми сообщениями.
+            Вы можете отправить или получить сообщение, выбрав один из вариантов ниже.
+            </p>
+            <a href="#encrypt" class="encrypt btn btn-primary">Отправить</a>
+            <a href="#decrypt" class="decrypt btn btn-primary">Получить</a>
+        </div>
+        <div id="encrypt">
+            <form>
+                <div class="form-group">
+                    <label for="EPublicKey">Public Key</label>
+                    <input class="form-control" id="EPublicKey" placeholder="Введите полученный Public Key" />
+                </div>      
+                <div class="form-group">
+                    <label for="Text">Текст</label>
+                    <textarea class="form-control" id="Text" placeholder="Введите текст, который необходимо зашифровать" rows="4"></textarea>
+                </div>   
+                <button type="button" class="btn btn-success" onclick="encryptText()">Зашифровать</button>  
+                
+                <div class="encrypted-text">
+                    <hr>
+                    <div class="form-group">
+                        <label for="EncryptedText">Зашифрованный текст</label>
+                        <textarea class="form-control" id="EncryptedText" rows="4" readonly></textarea>
+                    </div>  
+                    <button type="button" class="btn btn-primary" onclick="copyToClipboard(document.getElementById('EncryptedText'))">Копировать</button>
+                    <button type="button" class="btn btn-warning" onclick="encryptClear()">Очистить форму</button>                          
+                </div>
+            </form>
+        </div>
+        <div id="decrypt">
+            <form>
+                <div class="form-group">
+                    <label for="PublicKey">Public Key</label>
+                    <textarea class="form-control" id="PublicKey" placeholder="" rows="4" readonly></textarea>        
+                </div>            
+                <p>
+                Скопируйте ваш Public Key и отправьте его адресату. Дождитесь ответа и не перезагружайте страницу 
+                (в противном случае, ваши ключи будут более недействительны).
+                Получив от адресата зашифрованный текст, нажмите кнопку "Продолжить" и вставьте его в соответствующее поле для расшифровки.                
+                </p>                     
+                <button type="button" class="btn btn-primary" onclick="copyToClipboard(document.getElementById('PublicKey'))">Копировать</button>
+                <button type="button" class="btn btn-success" onclick="showDecrypting()">Продолжить</button>
+
+                <div class="decrypting">
+                    <hr>
+                    <div class="form-group">
+                        <label for="EText">Зашифрованный текст</label>
+                        <textarea class="form-control" id="EText" placeholder="Введите текст, который необходимо расшифровать" rows="4"></textarea>
+                    </div>                              
+                    <button type="button" class="btn btn-success" onclick="decryptText()">Расшифровать</button>
+                </div>
+                <div class="decrypted-text">
+                    <hr>
+                    <div class="form-group">
+                        <label for="DecryptedText">Расшифрованный текст</label>
+                        <textarea class="form-control" id="DecryptedText" rows="4" readonly></textarea>
+                    </div> 
+                    <button type="button" class="btn btn-primary" onclick="copyToClipboard(document.getElementById('DecryptedText'))">Копировать</button>
+                    <button type="button" class="btn btn-warning" onclick="decryptClear()">Очистить форму</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Ошибка!</h4>
+              </div>
+              <div class="modal-body">
+                При работе с зашифрованным текстом возникли ошибки. Убедитесь, что вы получили верный текст и не перезагружали страницу после отправки Public Key.
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+    </body>      
+</html>
